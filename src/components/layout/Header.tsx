@@ -9,10 +9,9 @@ export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState<boolean>(false);
 
-  // Header is transparent only when at very top of page
+  // Transparent only when at top of page
   const isTransparent = !scrolled;
 
-  // Scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -21,14 +20,15 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Navigation handling
   const handleNavClick = (path: string, scrollToId?: string) => {
     setIsMobileMenuOpen(false);
+
     if (location.pathname === path && scrollToId) {
       const el = document.getElementById(scrollToId);
       if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
+
     navigate(path);
     setTimeout(() => {
       if (scrollToId) {
@@ -43,19 +43,20 @@ export const Header = () => {
     window.scrollTo(0, 0);
   };
 
-  // PURE transparent at top, white after scroll
-  const headerBg = isTransparent ? "bg-transparent" : "bg-white shadow-md";
-
-  // White text at top, dark after scroll
   const textColor = isTransparent ? "text-white" : "text-gray-800";
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 py-2 ${headerBg}`}
+      className="fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 py-2"
+      style={{
+        backgroundColor: isTransparent ? "transparent" : "#ffffff",
+        boxShadow: isTransparent
+          ? "none"
+          : "0 4px 12px rgba(15, 23, 42, 0.12)",
+      }}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
-
           {/* ---------- LOGOS ---------- */}
           <div className="flex items-center gap-3">
             {/* Main Logo */}
@@ -66,7 +67,7 @@ export const Header = () => {
               alt="One Global Logistics"
             />
 
-            {/* Second Logo switching only */}
+            {/* Second Logo (6958.png only on transparent hero) */}
             <a
               href="https://www.1ge.sg/"
               target="_blank"
@@ -147,27 +148,33 @@ export const Header = () => {
               isTransparent ? "bg-black/60 text-white" : "bg-white text-gray-800"
             }`}
           >
-            <button onClick={() => handleNavClick("/")} className={textColor}>
+            <button
+              onClick={() => handleNavClick("/")}
+              className={`${textColor} text-left`}
+            >
               Home
             </button>
-            <button onClick={() => handleNavClick("/about")} className={textColor}>
+            <button
+              onClick={() => handleNavClick("/about")}
+              className={`${textColor} text-left`}
+            >
               About Us
             </button>
             <button
               onClick={() => handleNavClick("/services")}
-              className={textColor}
+              className={`${textColor} text-left`}
             >
               Services
             </button>
             <button
               onClick={() => handleNavClick("/careers")}
-              className={textColor}
+              className={`${textColor} text-left`}
             >
               Careers
             </button>
             <button
               onClick={() => handleNavClick("/global-presence")}
-              className={textColor}
+              className={`${textColor} text-left`}
             >
               Global Presence
             </button>
