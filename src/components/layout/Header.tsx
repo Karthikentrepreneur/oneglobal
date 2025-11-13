@@ -12,32 +12,28 @@ export const Header = () => {
   const isHome = location.pathname === "/";
   const isTransparent = isHome && !scrolled;
 
-  // Scroll effect for header background
+  // Scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Navigation with scroll-to-id support
+  // Navigation handling
   const handleNavClick = (path: string, scrollToId?: string) => {
     setIsMobileMenuOpen(false);
-
     if (location.pathname === path && scrollToId) {
       const el = document.getElementById(scrollToId);
       if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
-
     navigate(path);
     setTimeout(() => {
       if (scrollToId) {
         const el = document.getElementById(scrollToId);
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }, 500);
+    }, 400);
   };
 
   const handleLogoClick = () => {
@@ -45,100 +41,80 @@ export const Header = () => {
     window.scrollTo(0, 0);
   };
 
-  // Header background
-  const headerBgClass = isTransparent
-    ? "bg-transparent"
-    : "bg-white/95 shadow-md";
+  // PURE transparent on hero
+  const headerBg = isTransparent ? "bg-transparent" : "bg-white shadow-md";
 
-  // Text colors
-  const desktopTextBase =
-    "font-medium transition-colors py-1";
-  const desktopTextColor = isTransparent ? "text-white" : "text-gray-800";
-
-  const mobileTextBase = "font-medium";
-  const mobileTextColor = isTransparent ? "text-white" : "text-gray-800";
+  // White text on hero, black on scroll
+  const textColor = isTransparent ? "text-white" : "text-gray-800";
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 py-2 ${headerBgClass}`}
+      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 py-2 ${headerBg}`}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
-          {/* ---------- Logo Section ---------- */}
+
+          {/* ---------- LOGOS ---------- */}
           <div className="flex items-center gap-3">
-            {/* Main Logo (hero stays same, background changes only) */}
+            {/* Main Logo */}
             <img
               src="/ogl-logo.png"
-              alt="One Global Logistics"
               onClick={handleLogoClick}
-              className="h-16 w-auto cursor-pointer transition-all duration-300 object-contain"
+              className="h-16 w-auto cursor-pointer object-contain"
+              alt="One Global Logistics"
             />
 
-            {/* Second Logo (transparent hero uses 6958.png) */}
-            <div className="flex items-center gap-2">
-              <a
-                href="https://www.1ge.sg/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src={isTransparent ? "/6958.png" : "/group.png"}
-                  alt="1 Global Enterprises"
-                  className="h-11 w-auto object-contain hover:opacity-90 transition-opacity"
-                />
-              </a>
-            </div>
+            {/* Second Logo switching only */}
+            <a
+              href="https://www.1ge.sg/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={isTransparent ? "/6958.png" : "/group.png"}
+                className="h-11 w-auto object-contain"
+                alt="1 Global Enterprises"
+              />
+            </a>
           </div>
 
-          {/* ---------- Mobile Menu Button ---------- */}
+          {/* ---------- MOBILE MENU ICON ---------- */}
           <button
-            className={`md:hidden text-base focus:outline-none focus:ring-2 focus:ring-brand-gold rounded-md p-1 ${
-              isTransparent ? "text-white" : "text-gray-800"
-            }`}
+            className={`md:hidden p-1 ${textColor}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
 
-          {/* ---------- Desktop Navigation ---------- */}
+          {/* ---------- DESKTOP NAV ---------- */}
           <nav className="hidden md:flex gap-6 items-center">
             <button
               onClick={() => handleNavClick("/")}
-              className={`${desktopTextBase} ${desktopTextColor} hover:text-brand-gold ${
-                location.pathname === "/" ? "text-brand-gold" : ""
-              }`}
+              className={`${textColor} font-medium hover:text-brand-gold`}
             >
               Home
             </button>
             <button
               onClick={() => handleNavClick("/about")}
-              className={`${desktopTextBase} ${desktopTextColor} hover:text-brand-gold ${
-                location.pathname === "/about" ? "text-brand-gold" : ""
-              }`}
+              className={`${textColor} font-medium hover:text-brand-gold`}
             >
               About Us
             </button>
             <button
               onClick={() => handleNavClick("/services")}
-              className={`${desktopTextBase} ${desktopTextColor} hover:text-brand-gold ${
-                location.pathname.includes("/services") ? "text-brand-gold" : ""
-              }`}
+              className={`${textColor} font-medium hover:text-brand-gold`}
             >
               Services
             </button>
             <button
               onClick={() => handleNavClick("/careers")}
-              className={`${desktopTextBase} ${desktopTextColor} hover:text-brand-gold ${
-                location.pathname === "/careers" ? "text-brand-gold" : ""
-              }`}
+              className={`${textColor} font-medium hover:text-brand-gold`}
             >
               Careers
             </button>
             <button
               onClick={() => handleNavClick("/global-presence")}
-              className={`${desktopTextBase} ${desktopTextColor} hover:text-brand-gold ${
-                location.pathname === "/global-presence" ? "text-brand-gold" : ""
-              }`}
+              className={`${textColor} font-medium hover:text-brand-gold`}
             >
               Global Presence
             </button>
@@ -147,10 +123,10 @@ export const Header = () => {
 
             <button
               onClick={() => handleNavClick("/contact", "contact-form")}
-              className={`px-5 py-2 transition font-medium rounded-xl ${
+              className={`px-5 py-2 font-medium rounded-xl ${
                 isTransparent
-                  ? "bg-white/15 border border-white/40 text-white hover:bg-white/25"
-                  : "bg-slate-900 hover:bg-slate-800 text-slate-50"
+                  ? "bg-white/20 border border-white text-white"
+                  : "bg-slate-900 text-white hover:bg-slate-800"
               }`}
             >
               Get A Quote
@@ -158,91 +134,50 @@ export const Header = () => {
           </nav>
         </div>
 
-        {/* ---------- Mobile Navigation ---------- */}
+        {/* ---------- MOBILE NAV ---------- */}
         <div
           className={`${
-            isMobileMenuOpen ? "max-h-screen opacity-100 py-4" : "max-h-0 opacity-0"
-          } md:hidden overflow-hidden transition-all duration-300 ease-in-out`}
+            isMobileMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+          } overflow-hidden transition-all duration-300 md:hidden`}
         >
           <nav
-            className={`flex flex-col gap-4 border-t mt-4 ${
-              isTransparent
-                ? "bg-slate-900/95 border-slate-700 text-white"
-                : "bg-white border-gray-100 text-gray-800"
-            } rounded-b-xl px-4 pb-4 pt-3`}
+            className={`flex flex-col gap-4 mt-4 rounded-b-xl px-4 py-4 ${
+              isTransparent ? "bg-black/60 text-white" : "bg-white text-gray-800"
+            }`}
           >
-            <button
-              onClick={() => handleNavClick("/")}
-              className={`${mobileTextBase} ${mobileTextColor} hover:text-brand-gold text-left ${
-                location.pathname === "/" ? "text-brand-gold" : ""
-              }`}
-            >
+            <button onClick={() => handleNavClick("/")} className={textColor}>
               Home
             </button>
-            <button
-              onClick={() => handleNavClick("/about")}
-              className={`${mobileTextBase} ${mobileTextColor} hover:text-brand-gold text-left ${
-                location.pathname === "/about" ? "text-brand-gold" : ""
-              }`}
-            >
+            <button onClick={() => handleNavClick("/about")} className={textColor}>
               About Us
             </button>
             <button
               onClick={() => handleNavClick("/services")}
-              className={`${mobileTextBase} ${mobileTextColor} hover:text-brand-gold text-left ${
-                location.pathname.includes("/services") ? "text-brand-gold" : ""
-              }`}
+              className={textColor}
             >
               Services
             </button>
             <button
               onClick={() => handleNavClick("/careers")}
-              className={`${mobileTextBase} ${mobileTextColor} hover:text-brand-gold text-left ${
-                location.pathname === "/careers" ? "text-brand-gold" : ""
-              }`}
+              className={textColor}
             >
               Careers
             </button>
             <button
               onClick={() => handleNavClick("/global-presence")}
-              className={`${mobileTextBase} ${mobileTextColor} hover:text-brand-gold text-left ${
-                location.pathname === "/global-presence" ? "text-brand-gold" : ""
-              }`}
+              className={textColor}
             >
               Global Presence
             </button>
-
-            <div className="flex items-center gap-4 py-2">
-              <a
-                href="https://www.linkedin.com/company/gglus/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${
-                  isTransparent ? "text-white" : "text-gray-600"
-                } hover:text-brand-gold transition-colors`}
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href="https://www.facebook.com/gglusa"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${
-                  isTransparent ? "text-white" : "text-gray-600"
-                } hover:text-brand-gold transition-colors`}
-              >
-                <Facebook size={20} />
-              </a>
-            </div>
 
             <CountrySelector />
 
             <button
               onClick={() => handleNavClick("/contact", "contact-form")}
-              className={`px-4 py-2 rounded-md text-center font-medium w-full ${
+              className={`px-4 py-2 rounded-md w-full font-medium ${
                 isTransparent
-                  ? "bg-white/15 border border-white/30 text-white hover:bg-white/25"
-                  : "bg-brand-gold text-brand-navy hover:bg-amber-500"
+                  ? "bg-white/20 border border-white text-white"
+                  : "bg-brand-gold text-brand-navy"
               }`}
             >
               Get A Quote
