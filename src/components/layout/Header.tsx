@@ -9,12 +9,14 @@ export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState<boolean>(false);
 
-  const isHome = location.pathname === "/";
-  const isTransparent = isHome && !scrolled;
+  // Header is transparent only when at very top of page
+  const isTransparent = !scrolled;
 
   // Scroll effect
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -41,10 +43,10 @@ export const Header = () => {
     window.scrollTo(0, 0);
   };
 
-  // PURE transparent on hero
+  // PURE transparent at top, white after scroll
   const headerBg = isTransparent ? "bg-transparent" : "bg-white shadow-md";
 
-  // White text on hero, black on scroll
+  // White text at top, dark after scroll
   const textColor = isTransparent ? "text-white" : "text-gray-800";
 
   return (
