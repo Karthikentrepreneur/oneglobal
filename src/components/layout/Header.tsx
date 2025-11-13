@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, UserCircle, SearchCode, Ship, Calendar } from 'lucide-react';
+import { Users, UserCircle, SearchCode, Ship, Calendar, Globe } from 'lucide-react';
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -32,41 +32,41 @@ const Hero = () => {
       title: 'ConsolMate',
       description: 'Access shipping dashboard',
       url: 'https://consolmate.com/auth/login/9',
-      external: true
+      external: true,
     },
     {
       icon: <UserCircle className="w-4 h-4 sm:w-5 sm:h-5" />,
       title: 'Partner Portal',
       description: 'Manage partnership',
       url: 'https://pp.onlinetracking.co/auth/login/9',
-      external: true
+      external: true,
     },
     {
       icon: <SearchCode className="w-4 h-4 sm:w-5 sm:h-5" />,
       title: 'Tracking',
       description: 'Track your shipment',
       url: 'http://ec2-13-229-38-56.ap-southeast-1.compute.amazonaws.com:8081/ords/f?p=107:102:::::P0_GROUP_RID:188',
-      external: true
+      external: true,
     },
     {
       icon: <Ship className="w-4 h-4 sm:w-5 sm:h-5" />,
       title: 'Sailing Schedule',
       description: 'View schedules',
       url: 'http://ec2-13-229-38-56.ap-southeast-1.compute.amazonaws.com:8081/ords/f?p=107:104:::::P0_GROUP_RID:188',
-      external: true
+      external: true,
     },
     {
       icon: <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />,
       title: 'Online Quote',
       description: 'Request a quote',
       url: '/contact',
-      external: false
-    }
+      external: false,
+    },
   ];
 
   return (
-    // ✅ pull hero up under the fixed header
-    <section className="relative min-h-screen overflow-hidden -mt-16 md:-mt-20">
+    // ✅ removed pt-8 md:pt-16 so background reaches the very top
+    <section className="relative min-h-screen overflow-hidden">
       {/* Background Slider */}
       <div className="absolute inset-0 overflow-hidden">
         {sliderImages.map((slide, index) => (
@@ -166,7 +166,7 @@ const Hero = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
                     { src: '/GGL_demo1.mp4', label: 'Getting Started' },
-                    { src: '/GGL_promo.mp4', label: 'Advanced Features' }
+                    { src: '/GGL_promo.mp4', label: 'Advanced Features' },
                   ].map((video, i) => (
                     <div key={i} className="border rounded-lg overflow-hidden">
                       <div className="aspect-video">
